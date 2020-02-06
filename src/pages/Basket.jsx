@@ -17,7 +17,7 @@ export class Basket extends Component {
 		super(props);
 		this.state = INITIAL_STATE;
 
-		this.addToCart = this.addToCart = this.addToCart.bind(this);
+		this.addToCart = this.addToCart.bind(this);
 		this.removeFromCart = this.removeFromCart.bind(this);
 	}
 	componentDidMount() {
@@ -26,12 +26,12 @@ export class Basket extends Component {
 	addToCart(product) {
 		this.setState(state => {
 			const exist = state.cart.products.filter(p => p.id === product.id);
+			if (exist.length) return state;
+
 			const products = [...state.cart.products, product];
 			const totalAmount = state.cart.totalAmount + 1;
 			const totalPrice = state.cart.totalPrice + product.price;
-			return exist.length
-				? state
-				: { cart: { products, totalAmount, totalPrice } };
+			return { cart: { products, totalAmount, totalPrice } };
 		});
 	}
 	removeFromCart(product) {

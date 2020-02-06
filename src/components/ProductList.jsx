@@ -1,22 +1,12 @@
 import React from 'react';
-import Button from './primitives/Button';
+import ProductListItem from './ProductListItem';
 
-const ProductList = props => {
+const ProductList = ({ products, addToCart }) => {
 	return (
 		<div>
-			{props.products &&
-				props.products.map(item => (
-					<div key={item.id}>
-						<span>{item.title}</span>
-						<span> - {item.price} $ </span>
-						<Button
-							handleClick={() => {
-								props.addToCart(item);
-							}}
-						>
-							Add to Cart
-						</Button>
-					</div>
+			{products &&
+				products.map(item => (
+					<ProductListItem key={item.id} product={item} addToCart={addToCart} />
 				))}
 		</div>
 	);

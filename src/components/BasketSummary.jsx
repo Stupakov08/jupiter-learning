@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from './primitives/Button';
+import BasketLine from './BasketLine';
 
 const BasketSummary = ({
 	products,
@@ -9,19 +9,9 @@ const BasketSummary = ({
 }) => {
 	return products.length === 0 ? null : (
 		<div>
-			{products.map(item => (
-				<div key={item.key}>
-					<span>{item.title}</span>
-					<span> - {item.price}</span>
-					<Button
-						handleClick={() => {
-							removeFromCart(item);
-						}}
-					>
-						Delete from Cart
-					</Button>
-				</div>
-			))}
+			<div>
+				{products.map(item => <BasketLine key={item.id} product={item} removeFromCart={removeFromCart} />)}
+			</div>
 			<div>Total Amount: {totalAmount}</div>
 			<div>Total Price: {totalPrice} $</div>
 			<hr />
