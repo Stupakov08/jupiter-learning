@@ -3,16 +3,17 @@ import Button from './primitives/Button';
 
 const BasketSummary = ({
 	products,
-	totalAmount,
+	totalQuantity,
 	totalPrice,
 	removeFromCart
 }) => {
 	return products.length === 0 ? null : (
 		<div>
 			{products.map(item => (
-				<div key={item.key}>
+				<div key={item.id}>
 					<span>{item.title}</span>
-					<span> - {item.price}</span>
+					<span> | x {item.quantity}</span>
+					<span> - {item.price}$ </span>
 					<Button
 						handleClick={() => {
 							removeFromCart(item);
@@ -22,7 +23,7 @@ const BasketSummary = ({
 					</Button>
 				</div>
 			))}
-			<div>Total Amount: {totalAmount}</div>
+			<div>Total Amount: {totalQuantity}</div>
 			<div>Total Price: {totalPrice} $</div>
 			<hr />
 		</div>

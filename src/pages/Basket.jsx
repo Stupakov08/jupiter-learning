@@ -1,65 +1,62 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import BasketSummary from '../components/BasketSummary';
 import ProductList from '../components/ProductList';
-import products from '../data/products';
+import productsList from '../data/products';
 
-const INITIAL_STATE = {
-	products: [],
-	cart: {
+const Basket = () => {
+	const [products, setProducts] = useState([]);
+	const [cart, setCart] = useState({
 		products: [],
-		totalAmount: 0,
+		totalQuantity: 0,
 		totalPrice: 0
-	}
-};
+	});
 
-export class Basket extends Component {
-	constructor(props) {
-		super(props);
-		this.state = INITIAL_STATE;
+	useEffect(() => {
+		setProducts([...productsList]);
+	}, []);
 
-		this.addToCart = this.addToCart = this.addToCart.bind(this);
-		this.removeFromCart = this.removeFromCart.bind(this);
-	}
-	componentDidMount() {
-		this.setState({ products });
-	}
-	addToCart(product) {
-		this.setState(state => {
-			const exist = state.cart.products.filter(p => p.id === product.id);
-			const products = [...state.cart.products, product];
-			const totalAmount = state.cart.totalAmount + 1;
-			const totalPrice = state.cart.totalPrice + product.price;
-			return exist.length
-				? state
-				: { cart: { products, totalAmount, totalPrice } };
-		});
-	}
-	removeFromCart(product) {
-		this.setState(state => {
-			const products = state.cart.products.filter(p =>
-				p.id === product.id ? false : true
-			);
-			const totalAmount = state.cart.totalAmount - 1;
-			const totalPrice = state.cart.totalPrice - product.price;
-			return { cart: { products, totalAmount, totalPrice } };
-		});
-	}
-	render() {
-		return (
-			<div>
-				<BasketSummary
-					products={this.state.cart.products}
-					totalAmount={this.state.cart.totalAmount}
-					totalPrice={this.state.cart.totalPrice}
-					removeFromCart={this.removeFromCart}
-				></BasketSummary>
-				<ProductList
-					products={this.state.products}
-					addToCart={this.addToCart}
-				></ProductList>
-			</div>
+	const addToCart = product => {
+		let cartProducts = cart.products;
+		const index = cartProducts.findIndex(p => p.id === product.id);
+
+		if (index >= 0) {
+			cartProducts[index].quantity++;
+		} else {
+			cartProducts = [...cartProducts, { ...product, quantity: 1 }];
+		}
+
+		const totalQuantity = ++cart.totalQuantity;
+		const totalPrice = cart.totalPrice + product.price;
+
+		setCart({ products: cartProducts, totalQuantity, totalPrice });
+	};
+	const removeFromCart = product => {
+		let cartProducts = cart.products;
+		const index = cartProducts.findIndex(
+			p => p.id === product.id && p.quantity > 1
 		);
-	}
-}
+		if (index >= 0) {
+			cartProducts[index].quantity--;
+		} else {
+			cartProducts = cartProducts.filter(p => p.id !== product.id);
+		}
 
+		const totalQuantity = --cart.totalQuantity;
+		const totalPrice = cart.totalPrice - product.price;
+
+		setCart({ products: cartProducts, totalQuantity, totalPrice });
+	};
+
+	return (
+		<div>
+			<BasketSummary
+				products={cart.products}
+				totalQuantity={cart.totalQuantity}
+				totalPrice={cart.totalPrice}
+				removeFromCart={removeFromCart}
+			></BasketSummary>
+			<ProductList products={products} addToCart={addToCart}></ProductList>
+		</div>
+	);
+};
 export default Basket;
