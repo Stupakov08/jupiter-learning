@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import BasketSummary from '../components/BasketSummary';
 import ProductList from '../components/ProductList';
 import productsList from '../data/products';
+import QuickOrder from '../components/QuickOrder';
 
 const Basket = () => {
 	const [products, setProducts] = useState([]);
@@ -49,6 +50,7 @@ const Basket = () => {
 
 	return (
 		<div>
+			<QuickOrder addToCart={addToCart}></QuickOrder>
 			<BasketSummary
 				products={cart.products}
 				totalQuantity={cart.totalQuantity}

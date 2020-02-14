@@ -9,8 +9,10 @@ const BasketSummary = ({
 }) => {
 	return products.length === 0 ? null : (
 		<div>
+			<b>Basket:</b>
 			{products.map(item => (
 				<div key={item.id}>
+					<span><b>{item.id}</b> - </span>
 					<span>{item.title}</span>
 					<span> | x {item.quantity}</span>
 					<span> - {item.price}$ </span>
