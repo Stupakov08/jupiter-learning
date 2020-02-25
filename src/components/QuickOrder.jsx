@@ -6,7 +6,10 @@ const QuickOrder = ({ addToCart }) => {
     const [form, setForm] = useState({
         id: ""
     });
-
+    React.useEffect(() => {
+        //FOR DEV
+        console.log("QuickOrder");
+    })
     const handleInputChange = (event) => {
         const { name, value } = event.target;
         setForm({ [name]: value });
@@ -28,4 +31,4 @@ const QuickOrder = ({ addToCart }) => {
         </div>
     )
 }
-export default QuickOrder;
+export default React.memo(QuickOrder);

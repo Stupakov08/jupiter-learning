@@ -2,6 +2,10 @@ import React from 'react';
 import Button from './primitives/Button';
 
 const ProductList = props => {
+	React.useEffect(() => {
+		//FOR DEV
+		console.log("ProductList");
+	})
 	return (
 		<div>
 			<b>Product List:</b>
@@ -24,4 +28,4 @@ const ProductList = props => {
 	);
 };
 
-export default ProductList;
+export default React.memo(ProductList);
