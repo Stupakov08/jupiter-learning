@@ -33,7 +33,8 @@ const Basket = () => {
 			return { products: cartProducts, totalQuantity, totalPrice }
 		});
 	}, []);
-	const removeFromCart = product => {
+
+	const removeFromCart = React.useCallback(product => {
 		let cartProducts = cart.products;
 		const index = cartProducts.findIndex(
 			p => p.id === product.id && p.quantity > 1
@@ -48,7 +49,7 @@ const Basket = () => {
 		const totalPrice = cart.totalPrice - product.price;
 
 		setCart({ products: cartProducts, totalQuantity, totalPrice });
-	};
+	}, []);
 
 	return (
 		<div>
